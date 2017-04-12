@@ -10,6 +10,8 @@
 
 Require Import NZAxioms NZBase Decidable OrdersTac.
 
+Unset Universe Polymorphism.
+
 Module Type NZOrderProp
  (Import NZ : NZOrdSig')(Import NZBase : NZBaseProp NZ).
 

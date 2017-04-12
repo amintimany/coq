@@ -166,3 +166,5 @@ Qed.
 
 End NZAddOrderProp.
 
+Set Printing All.
+Set Printing Universes.

@@ -8,6 +8,9 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Set Printing All.
+Set Printing Universes.
+
 Require Import NZAxioms.
 
 Module Type NZBaseProp (Import NZ : NZDomainSig').

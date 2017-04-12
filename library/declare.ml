@@ -158,7 +158,20 @@ let cache_constant ((sp,kn), obj) =
   assert (eq_constant kn' (constant_of_kn kn));
   Nametab.push (Nametab.Until 1) sp (ConstRef (constant_of_kn kn));
   let cst = Global.lookup_constant kn' in
-  add_section_constant cst.const_polymorphic kn' cst.const_hyps;
+  let univs =
+    match Global.body_of_constant_body cst with
+    | None -> Univ.LSet.empty
+    | Some bd -> Univops.universes_of_constr bd
+  in
+  let univs =
+    let ctp = Declareops.type_of_constant cst in
+    let ctp = Typeops.type_of_constant_type (Global.env ()) ctp in
+    Univ.LSet.union univs (Univops.universes_of_constr ctp)
+  in
+  let cstcnt = Global.constraints_of_constant_body cst in
+  let univs = Univ.LSet.union univs (Univ.universes_of_constraints cstcnt) in
+  output_string stderr ("\n univs_of " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
+  add_section_constant cst.const_polymorphic kn' cst.const_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp obj.cst_hyps;
   add_constant_kind (constant_of_kn kn) obj.cst_kind
 
@@ -325,7 +338,11 @@ let cache_inductive ((sp,kn),(dhyps,mie)) =
   let kn' = Global.add_mind dir id mie in
   assert (eq_mind kn' (mind_of_kn kn));
   let mind = Global.lookup_mind kn' in
-  add_section_kn mind.mind_polymorphic kn' mind.mind_hyps;
+  let univs = Univops.universes_of_inductive mind in
+  let mindcnt = (Univ.UContext.constraints (Univ.UInfoInd.univ_context mind.mind_universes)) in
+  let univs = Univ.LSet.union univs (Univ.universes_of_constraints mindcnt) in
+  output_string stderr ("\n univs_of inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
+  add_section_kn mind.mind_polymorphic kn' mind.mind_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp dhyps;
   List.iter (fun (sp, ref) -> Nametab.push (Nametab.Until 1) sp ref) names
 

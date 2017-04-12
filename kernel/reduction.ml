@@ -607,7 +607,7 @@ let check_leq_inductives ~flex uinfind u u' univs =
   let ind_sbcst = Univ.UContext.constraints (Univ.UInfoInd.subtyp_context uinfind) in
   if not ((Univ.Instance.length ind_instance = Univ.Instance.length u) &&
           (Univ.Instance.length ind_instance = Univ.Instance.length u')) then
-     anomaly (Pp.str "Invalid inductive subtyping encountered!")
+     (output_string stderr "\n\nerror_found\n\n"; flush stderr; anomaly (Pp.str "Invalid inductive subtyping encountered!"))
   else
     begin
      let comp_subst = (Univ.Instance.append u u') in
@@ -661,7 +661,7 @@ let infer_leq_inductives ~flex uinfind u u' (univs, cstrs) =
   let ind_sbcst = Univ.UContext.constraints (Univ.UInfoInd.subtyp_context uinfind) in
   if not ((Univ.Instance.length ind_instance = Univ.Instance.length u) &&
           (Univ.Instance.length ind_instance = Univ.Instance.length u')) then
-     anomaly (Pp.str "Invalid inductive subtyping encountered!")
+     (output_string stderr "\n\nerror_found\n\n"; flush stderr; anomaly (Pp.str "Invalid inductive subtyping encountered!"))
   else
      let comp_subst = (Univ.Instance.append u u') in
      let comp_cst = Univ.subst_instance_constraints comp_subst ind_sbcst in

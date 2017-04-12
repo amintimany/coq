@@ -27,8 +27,10 @@ Section Well_founded.
  (** The accessibility predicate is defined to be non-informative *)
  (** (Acc_rect is automatically defined because Acc is a singleton type) *)
 
- Inductive Acc (x: A) : Prop :=
+Inductive Acc (x: A) : Prop :=
      Acc_intro : (forall y:A, R y x -> Acc y) -> Acc x.
+
+Print Acc.
 
  Lemma Acc_inv : forall x:A, Acc x -> forall y:A, R y x -> Acc y.
   destruct 1; trivial.
@@ -112,6 +114,11 @@ Section Well_founded.
  End FixPoint.
 
 End Well_founded.
+
+Set Printing Universes.
+Set Printing All.
+
+Print Acc.
 
 (** Well-founded fixpoints over pairs *)
 

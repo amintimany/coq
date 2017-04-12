@@ -14,9 +14,12 @@ Module Type NParityProp (Import N : NAxiomsSig')(Import NP : NSubProp N).
 
 Include NZParityProp N N NP.
 
+Set Printing Universes.
 Lemma odd_pred : forall n, n~=0 -> odd (P n) = even n.
 Proof.
- intros. rewrite <- (succ_pred n) at 2 by trivial.
+ intros. 
+Set Typeclasses Debug.
+rewrite <- (succ_pred n) at 2 by trivial.
  symmetry. apply even_succ.
 Qed.
 

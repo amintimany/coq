@@ -451,7 +451,8 @@ let extract_hyps (secs,ohyps) =
       (decl,impl) :: l, if poly then Univ.ContextSet.union r ctx else r
     | (Variable (_,_,poly,ctx)::idl,hyps) ->
         let l, r = aux (idl,hyps) in
-          l, if poly then Univ.ContextSet.union r ctx else r
+          l, if poly then Univ.ContextSet.union r ctx 
+             else r
     | (Context ctx :: idl, hyps) ->
        let l, r = aux (idl, hyps) in
        l, Univ.ContextSet.union r ctx
@@ -464,25 +465,26 @@ let instance_from_variable_context =
 let named_of_variable_context =
   List.map fst
   
-let add_section_replacement f g poly hyps =
+let add_section_replacement f g poly hyps univs =
   match !sectab with
   | [] -> ()
   | (vars,exps,abs)::sl ->
     let () = check_same_poly poly vars in
     let sechyps,ctx = extract_hyps (vars,hyps) in
+    let ctx = Univops.restrict_universe_context ctx univs in
     let ctx = Univ.ContextSet.to_context ctx in
     let subst, ctx = Univ.abstract_universes true ctx in
     let args = instance_from_variable_context (List.rev sechyps) in
     sectab := (vars,f (Univ.UContext.instance ctx,args) exps,
 	      g (sechyps,subst,ctx) abs)::sl
 
-let add_section_kn poly kn =
+let add_section_kn poly kn nm univs =
   let f x (l1,l2) = (l1,Names.Mindmap.add kn x l2) in
-    add_section_replacement f f poly
+    add_section_replacement f f poly nm univs
 
-let add_section_constant poly kn =
+let add_section_constant poly kn univs =
   let f x (l1,l2) = (Names.Cmap.add kn x l1,l2) in
-    add_section_replacement f f poly
+    add_section_replacement f f poly univs
 
 let replacement_context () = pi2 (List.hd !sectab)
 

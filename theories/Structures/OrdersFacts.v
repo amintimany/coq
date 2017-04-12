@@ -12,6 +12,8 @@ Require Export Orders.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
+Unset Universe Polymorphism.
+
 (** * Properties of [compare] *)
 
 Module Type CompareFacts (Import O:DecStrOrder').
@@ -172,7 +174,7 @@ Module OrderedTypeFacts (Import O: OrderedType').
 
   Definition eqb x y : bool := if eq_dec x y then true else false.
 
-  Lemma if_eq_dec : forall x y (B:Type)(b b':B),
+  Polymorphic Lemma if_eq_dec : forall x y (B:Type)(b b':B),
     (if eq_dec x y then b else b') =
     (match compare x y with Eq => b | _ => b' end).
   Proof.

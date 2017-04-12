@@ -26,6 +26,8 @@ Module Type NZLog2 (A : NZOrdAxiomsSig)(B : Pow A) := Log2 A <+ NZLog2Spec A B.
 
 (** Derived properties of logarithm *)
 
+Set Printing Universes.
+
 Module Type NZLog2Prop
  (Import A : NZOrdAxiomsSig')
  (Import B : NZPow' A)

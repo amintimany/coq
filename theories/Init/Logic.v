@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Global Set Universe Polymorphism.
+
 Set Implicit Arguments.
 
 Require Export Notations.
@@ -297,7 +299,7 @@ End universal_quantification.
     as it expresses that [x] and [y] are equal iff every property on
     [A] which is true of [x] is also true of [y] *)
 
-Inductive eq (A:Type) (x:A) : A -> Prop :=
+Monomorphic Inductive eq (A:Type) (x:A) : A -> Prop :=
     eq_refl : x = x :>A
 
 where "x = y :> A" := (@eq A x y) : type_scope.
@@ -317,6 +319,9 @@ Hint Resolve I conj or_introl or_intror : core.
 Hint Resolve eq_refl: core. 
 Hint Resolve ex_intro ex_intro2: core.
 
+Set Printing Universes.
+Set Printing All.
+
 Section Logic_lemmas.
 
   Theorem absurd : forall A C:Prop, A -> ~ A -> C.
@@ -326,8 +331,7 @@ Section Logic_lemmas.
   Qed.
 
   Section equality.
-    Variables A B : Type.
-    Variable f : A -> B.
+    Variables A : Type.
     Variables x y z : A.
 
     Theorem eq_sym : x = y -> y = x.
@@ -335,22 +339,34 @@ Section Logic_lemmas.
       destruct 1; trivial.
     Defined.
 
+Print eq_sym.
+
     Theorem eq_trans : x = y -> y = z -> x = z.
     Proof.
       destruct 2; trivial.
-    Defined.
-
-    Theorem f_equal : x = y -> f x = f y.
-    Proof.
-      destruct 1; trivial.
     Defined.
 
     Theorem not_eq_sym : x <> y -> y <> x.
     Proof.
       red; intros h1 h2; apply h1; destruct h2; trivial.
     Qed.
-
   End equality.
+
+Print eq_sym.
+
+  Section Fequal.
+    Variables A B : Type.
+    Variable f : A -> B.
+    Variables x y z : A.
+
+    Theorem f_equal : x = y -> f x = f y.
+    Proof.
+      destruct 1; trivial.
+    Defined.
+
+  End Fequal.
+
+Print eq_sym.
 
   Definition eq_ind_r :
     forall (A:Type) (x:A) (P:A -> Prop), P x -> forall y:A, y = x -> P y.

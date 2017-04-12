@@ -7,6 +7,16 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Set Printing Universes.
+Test Universe Polymorphism.
+Section Foo.
+  Context {A B : Type}.
+
+   Definition b := ltac:(let t := type of B in exact (Set : t)).
+End Foo.
+
+Check b.
+
 (** * Typeclass-based morphism definition and standard, minimal instances
 
    Author: Matthieu Sozeau
@@ -21,6 +31,10 @@ Require Export Coq.Classes.RelationClasses.
 Generalizable Variables A eqA B C D R RA RB RC m f x y.
 Local Obligation Tactic := simpl_relation.
 
+(* Unset Universe Polymorphism. *)
+Set Printing Universes.
+
+
 (** * Morphisms.
 
    We now turn to the definition of [Proper] and declare standard instances.
@@ -30,8 +44,7 @@ Local Obligation Tactic := simpl_relation.
    The relation [R] will be instantiated by [respectful] and [A] by an arrow
    type for usual morphisms. *)
 Section Proper.
-  Let U := Type.
-  Context {A B : U}.
+  Context {A : Type}.
 
   Class Proper (R : relation A) (m : A) : Prop :=
     proper_prf : R m m.
@@ -56,12 +69,13 @@ Section Proper.
 
   Lemma proper_proper_proxy x `(Proper R x) : ProperProxy R x.
   Proof. firstorder. Qed.
+End Proper.
 
-  (** Respectful morphisms. *)
+(** Respectful morphisms. *)
   
-  (** The fully dependent version, not used yet. *)
+(** The fully dependent version, not used yet. *)
   
-  Definition respectful_hetero
+Definition respectful_hetero
   (A B : Type)
   (C : A -> Type) (D : B -> Type)
   (R : A -> B -> Prop)
@@ -71,10 +85,8 @@ Section Proper.
 
   (** The non-dependent version is an instance where we forget dependencies. *)
   
-  Definition respectful (R : relation A) (R' : relation B) : relation (A -> B) :=
+Definition respectful {A B} (R : relation A) (R' : relation B) : relation (A -> B) :=
     Eval compute in @respectful_hetero A A (fun _ => B) (fun _ => B) R (fun _ _ => R').
-
-End Proper.
 
 (** We favor the use of Leibniz equality or a declared reflexive relation 
   when resolving [ProperProxy], otherwise, if the relation is given (not an evar),
@@ -144,12 +156,11 @@ Ltac f_equiv :=
  end.
 
 Section Relations.
-  Let U := Type.
-  Context {A B : U} (P : A -> U).
+  Context {A : Type} (P : A -> Type).
 
   (** [forall_def] reifies the dependent product as a definition. *)
   
-  Definition forall_def : Type := forall x : A, P x.
+  Definition forall_def := forall x : A, P x.
   
   (** Dependent pointwise lifting of a relation on the range. *)
   
@@ -158,10 +169,10 @@ Section Relations.
     fun f g => forall a, sig a (f a) (g a).
 
   (** Non-dependent pointwise lifting *)
-  Definition pointwise_relation (R : relation B) : relation (A -> B) :=
+  Definition pointwise_relation {B : Type} (R : relation B) : relation (A -> B) :=
     fun f g => forall a, R (f a) (g a).
 
-  Lemma pointwise_pointwise (R : relation B) :
+  Lemma pointwise_pointwise {B} (R : relation B) :
     relation_equivalence (pointwise_relation R) (@eq A ==> R).
   Proof. intros. split; reduce; subst; firstorder. Qed.
   

@@ -12,6 +12,8 @@ Require Export Decidable.
 Require Export NAxioms.
 Require Import NZProperties.
 
+Unset Universe Polymorphism.
+
 Module NBaseProp (Import N : NAxiomsMiniSig').
 (** First, we import all known facts about both natural numbers and integers. *)
 Include NZProp N.

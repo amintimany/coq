@@ -10,6 +10,8 @@
 
 Require Import NAxioms NProperties OrdersFacts.
 
+Unset Universe Polymorphism.
+
 (** Implementation of [NAxiomsSig] by [nat] *)
 
 Module Nat
