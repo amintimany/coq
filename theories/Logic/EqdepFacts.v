@@ -52,6 +52,8 @@ Table of contents:
 
 Import EqNotations.
 
+Require Import Coq.Classes.CRelationClasses.
+
 (* Set Universe Polymorphism. *)
 
 Section Dependent_Equality.
@@ -168,8 +170,8 @@ Qed.
 
 Set Implicit Arguments.
 
-Lemma eq_sigT_sig_eq : forall X P (x1 x2:X) H1 H2, existT P x1 H1 = existT P x2 H2 <->
-                                                   {H:x1=x2 | rew H in H1 = H2}.
+Lemma veq_sigT_sig_eq : forall X P (x1 x2:X) H1 H2,
+  iffT (existT P x1 H1 = existT P x2 H2) {H:x1=x2 | rew H in H1 = H2}.
 Proof.
   intros; split; intro H.
   - change x2 with (projT1 (existT P x2 H2)).

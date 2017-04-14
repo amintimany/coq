@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** * Efficient arbitrary large natural numbers in base 2^31 *)
 
 (** Initial Author: Arnaud Spiwack *)

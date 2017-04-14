@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import Bool NAxioms NSub NPow NDiv NParity NLog.
 
 (** Derived properties of bitwise operations *)

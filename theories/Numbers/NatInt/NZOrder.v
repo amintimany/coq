@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import NZAxioms NZBase Decidable OrdersTac.
 
 Unset Universe Polymorphism.

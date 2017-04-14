@@ -13,6 +13,8 @@
 (** This file specifies how to represent [Z/nZ] when [n=2^d],
     [d] being the number of digits of these bounded integers. *)
 
+Unset Universe Polymorphism.
+
 Set Implicit Arguments.
 
 Require Import ZArith.

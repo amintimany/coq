@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Export NBase.
 
 Module NAddProp (Import N : NAxiomsMiniSig').

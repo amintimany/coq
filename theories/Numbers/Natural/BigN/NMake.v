@@ -8,6 +8,8 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** * NMake *)
 
 (** From a cyclic Z/nZ representation to arbitrary precision natural numbers.*)

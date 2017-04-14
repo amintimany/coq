@@ -14,6 +14,8 @@
     numbers. *)
 
 
+Unset Universe Polymorphism.
+
 Require Import ArithRing.
 Require Export ZArith.
 Require Export Znumtheory.

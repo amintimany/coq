@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Set Printing All.
 Set Printing Universes.
 

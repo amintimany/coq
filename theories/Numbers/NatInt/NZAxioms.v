@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Initial Author : Evgeny Makarov, INRIA, 2007 *)
 
 Require Export Equalities Orders NumPrelude GenericMinMax.

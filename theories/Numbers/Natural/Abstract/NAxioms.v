@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Export Bool NZAxioms NZParity NZPow NZSqrt NZLog NZDiv NZGcd NZBits.
 
 (** From [NZ], we obtain natural numbers just by stating that [pred 0] == 0 *)

@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import NZAxioms NZBase.
 
 Module Type NZAddProp (Import NZ : NZAxiomsSig')(Import NZBase : NZBaseProp NZ).

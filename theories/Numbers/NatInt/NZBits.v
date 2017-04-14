@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import Bool NZAxioms NZMulOrder NZParity NZPow NZDiv NZLog.
 
 (** Axiomatization of some bitwise operations *)

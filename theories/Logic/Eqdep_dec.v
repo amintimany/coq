@@ -37,6 +37,8 @@ Table of contents:
 Set Implicit Arguments.
 (* Set Universe Polymorphism. *)
 
+Unset Universe Polymorphism.
+
 Section EqdepDec.
 
   Variable A : Type.
@@ -314,6 +316,9 @@ Module DecidableEqDepSet (M:DecidableSet).
 
   (** Proof-irrelevance on subsets of decidable sets *)
 
+Set Printing All.
+Set Printing Universes.
+Print ex.
   Lemma inj_pairP2 :
     forall (P:U -> Prop) (x:U) (p q:P x),
       ex_intro P x p = ex_intro P x q -> p = q.

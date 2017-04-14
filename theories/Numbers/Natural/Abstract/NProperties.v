@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Export NAxioms.
 Require Import NMaxMin NParity NPow NSqrt NLog NDiv NGcd NLcm NBits.
 

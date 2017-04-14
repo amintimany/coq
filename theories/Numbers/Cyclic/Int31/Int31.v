@@ -8,6 +8,8 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import NaryFunctions.
 Require Import Wf_nat.
 Require Export ZArith.

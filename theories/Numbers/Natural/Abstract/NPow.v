@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Properties of the power function *)
 
 Require Import Bool NAxioms NSub NParity NZPow.

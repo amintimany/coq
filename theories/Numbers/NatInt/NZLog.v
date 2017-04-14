@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Base-2 Logarithm *)
 
 Require Import NZAxioms NZMulOrder NZPow.

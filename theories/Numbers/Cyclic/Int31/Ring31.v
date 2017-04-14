@@ -9,6 +9,8 @@
 (** * Int31 numbers defines Z/(2^31)Z, and can hence be equipped
       with a ring structure and a ring tactic *)
 
+Unset Universe Polymorphism.
+
 Require Import Int31 Cyclic31 CyclicAxioms.
 
 Local Open Scope int31_scope.

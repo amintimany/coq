@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import NBase.
 
 Module Homomorphism (N1 N2 : NAxiomsRecSig).

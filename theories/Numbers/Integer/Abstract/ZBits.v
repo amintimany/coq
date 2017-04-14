@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import
  Bool ZAxioms ZMulOrder ZPow ZDivFloor ZSgnAbs ZParity NZLog.
 

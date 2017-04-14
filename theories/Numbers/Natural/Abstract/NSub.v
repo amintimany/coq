@@ -8,6 +8,8 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Export NMulOrder.
 
 Module Type NSubProp (Import N : NAxiomsMiniSig').

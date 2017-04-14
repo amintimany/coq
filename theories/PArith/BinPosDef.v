@@ -16,6 +16,8 @@
 (** The type [positive] and its constructors [xI] and [xO] and [xH]
     are now defined in [BinNums.v] *)
 
+Unset Universe Polymorphism.
+
 Require Export BinNums.
 
 (** Postfix notation for positive numbers, which allows mimicking
