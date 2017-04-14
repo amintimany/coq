@@ -24,6 +24,7 @@ let universes_of_constr c =
 let universes_of_inductive mind =
   if mind.mind_polymorphic then
   begin
+    let u = Univ.UContext.instance (Univ.UInfoInd.univ_context mind.mind_universes) in
     let univ_of_one_ind oind = 
       let arity_univs =
         Context.Rel.fold_outside
@@ -31,14 +32,21 @@ let universes_of_inductive mind =
              Univ.LSet.union
               (Context.Rel.Declaration.fold_constr
                  (fun cnstr unvs ->
+                    let cnstr = Vars.subst_instance_constr u cnstr in
                     Univ.LSet.union
                       (universes_of_constr cnstr) unvs)
               decl Univ.LSet.empty) unvs)
         oind.mind_arity_ctxt ~init:Univ.LSet.empty
       in
-      Array.fold_left (fun unvs cns -> Univ.LSet.union (universes_of_constr cns) unvs) arity_univs oind.mind_nf_lc
+      Array.fold_left (fun unvs cns ->
+          let cns = Vars.subst_instance_constr u cns in
+          Univ.LSet.union (universes_of_constr cns) unvs) arity_univs 
+       oind.mind_nf_lc
     in
-    Array.fold_left (fun unvs pk -> Univ.LSet.union (univ_of_one_ind pk) unvs) Univ.LSet.empty mind.mind_packets
+    let univs = Array.fold_left (fun unvs pk -> Univ.LSet.union (univ_of_one_ind pk) unvs) Univ.LSet.empty mind.mind_packets in
+    let mindcnt = Univ.UContext.constraints (Univ.instantiate_univ_context (Univ.UInfoInd.univ_context mind.mind_universes)) in
+    let univs = Univ.LSet.union univs (Univ.universes_of_constraints mindcnt) in
+    univs
   end
   else LSet.empty
 

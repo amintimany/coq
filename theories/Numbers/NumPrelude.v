@@ -22,3 +22,4 @@ NZBase.v *)
 Ltac induction_maker n t :=
   try intros until n; pattern n; t; clear n; [solve_proper | ..].
 
+Global Unset Universe Polymorphism.

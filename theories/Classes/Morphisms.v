@@ -31,7 +31,6 @@ Require Export Coq.Classes.RelationClasses.
 Generalizable Variables A eqA B C D R RA RB RC m f x y.
 Local Obligation Tactic := simpl_relation.
 
-(* Unset Universe Polymorphism. *)
 Set Printing Universes.
 
 

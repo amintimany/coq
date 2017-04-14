@@ -12,6 +12,9 @@ Require Import NAxioms NProperties OrdersFacts.
 
 Unset Universe Polymorphism.
 
+Module Type F (H : EqLtLe').
+  Definition foo := 0.
+End F.
 (** Implementation of [NAxiomsSig] by [nat] *)
 
 Module Nat
@@ -251,6 +254,8 @@ Qed.
 
 (** Some more advanced properties of comparison and orders,
     including [compare_spec] and [lt_irrefl] and [lt_eq_cases]. *)
+
+Set Printing Universes.
 
 Include BoolOrderFacts.
 

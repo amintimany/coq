@@ -10,6 +10,8 @@
 
 Require Export Equalities Orders NumPrelude GenericMinMax.
 
+Unset Universe Polymorphism.
+
 (** Axiomatization of a domain with zero, successor, predecessor,
     and a bi-directional induction principle. We require [P (S n) = n]
     but not the other way around, since this domain is meant

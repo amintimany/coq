@@ -449,7 +449,34 @@ and evar_eqappr_x ?(rhs_is_already_stuck = false) ts env evd pbty
          end
          else UnifFailure (evd, NotSameHead)
       | Construct (cons, u), Construct (cons', u') ->
-          fall_back (Names.eq_constructor cons cons') u u'
+         let ind, ind' = fst cons, fst cons' in
+         let j, j' = snd cons, snd cons' in
+         let nparamsaplied = Stack.args_size sk in
+         let nparamsaplied' = Stack.args_size sk' in
+         if Names.eq_constructor cons cons' then
+         begin
+           let mind = Environ.lookup_mind (fst ind) env in
+           if mind.Declarations.mind_polymorphic then
+           begin
+             let num_cnstr_args =
+              let nparamsctxt = Context.Rel.length mind.Declarations.mind_params_ctxt in
+              nparamsctxt + mind.Declarations.mind_packets.(snd ind).Declarations.mind_consnrealargs.(j - 1)
+             in
+             if not (num_cnstr_args = nparamsaplied && num_cnstr_args = nparamsaplied') then
+                fall_back true u u'
+             else
+             begin
+               let uinfind = mind.Declarations.mind_universes in
+               let evd' = check_leq_inductives evd uinfind u u' in
+               Success (check_leq_inductives evd' uinfind u' u)
+             end
+           end
+           else
+             fall_back true u u'
+         end
+         else UnifFailure (evd, NotSameHead)
+
+          (* fall_back (Names.eq_constructor cons cons') u u' *)
       | _, _ -> anomaly (Pp.str "")
     in
     ise_and evd [(fun i ->

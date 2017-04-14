@@ -90,6 +90,7 @@ let check_conv_error error why cst poly u f env a1 a2 =
 	else error (IncompatiblePolymorphism (env, a1, a2))
       else Constraint.union cst cst'
   with NotConvertible -> error why
+     | Univ.UniverseInconsistency e -> error (IncompatibleUniverses e)
 
 (* for now we do not allow reorderings *)
 

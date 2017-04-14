@@ -22,10 +22,8 @@ Require Import Coq.Relations.Relation_Definitions.
 
 Generalizable Variables A B C D R S T U l eqA eqB eqC eqD.
 
-Unset Universe Polymorphism.
-
 (** We allow to unfold the [relation] definition while doing morphism search. *)
-
+Set Printing Universes.
 Section Defs.
   Context {A : Type}.
 

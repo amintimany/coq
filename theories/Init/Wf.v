@@ -136,6 +136,8 @@ Section Well_founded_2.
       forall (x:A) (x':B),
         (forall (y:A) (y':B), R (y, y') (x, x') -> P y y') -> P x x'.
 
+Print Acc_inv.
+
   Fixpoint Fix_F_2 (x:A) (x':B) (a:Acc R (x, x')) : P x x' :=
     F
       (fun (y:A) (y':B) (h:R (y, y') (x, x')) =>

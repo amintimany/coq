@@ -169,7 +169,9 @@ let cache_constant ((sp,kn), obj) =
     Univ.LSet.union univs (Univops.universes_of_constr ctp)
   in
   let cstcnt = Global.constraints_of_constant_body cst in
-  let univs = Univ.LSet.union univs (Univ.universes_of_constraints cstcnt) in
+  let cstcnt_univs = Univ.universes_of_constraints cstcnt in
+  output_string stderr ("\n univs_of constraints of " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr cstcnt_univs)) ^ "\n"); flush stderr;
+  let univs = Univ.LSet.union univs cstcnt_univs in
   output_string stderr ("\n univs_of " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
   add_section_constant cst.const_polymorphic kn' cst.const_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp obj.cst_hyps;
@@ -339,8 +341,7 @@ let cache_inductive ((sp,kn),(dhyps,mie)) =
   assert (eq_mind kn' (mind_of_kn kn));
   let mind = Global.lookup_mind kn' in
   let univs = Univops.universes_of_inductive mind in
-  let mindcnt = (Univ.UContext.constraints (Univ.UInfoInd.univ_context mind.mind_universes)) in
-  let univs = Univ.LSet.union univs (Univ.universes_of_constraints mindcnt) in
+  output_string stderr ("\n Them stored univs_of inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.pr_universe_info_ind Univ.Level.pr mind.mind_universes)) ^ "\n"); flush stderr;
   output_string stderr ("\n univs_of inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
   add_section_kn mind.mind_polymorphic kn' mind.mind_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp dhyps;
@@ -351,8 +352,9 @@ let discharge_inductive ((sp,kn),(dhyps,mie)) =
   let mie = Global.lookup_mind mind in
   let repl = replacement_context () in
   let sechyps,usubst,uctx = section_segment_of_mutual_inductive mind in
-  Some (discharged_hyps kn sechyps,
-        Discharge.process_inductive (named_of_variable_context sechyps,uctx) repl mie)
+  let mib = Discharge.process_inductive (named_of_variable_context sechyps,uctx) repl mie in
+  output_string stderr ("\n discharge inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " context is: " ^ (Pp.string_of_ppcmds (Univ.pr_universe_context Univ.Level.pr uctx)) ^ "\n"); flush stderr;
+  Some (discharged_hyps kn sechyps, mib)
 
 let dummy_one_inductive_entry mie = {
   mind_entry_typename = mie.mind_entry_typename;

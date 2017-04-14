@@ -331,7 +331,8 @@ Section Logic_lemmas.
   Qed.
 
   Section equality.
-    Variables A : Type.
+    Variables A B : Type.
+    Variable f : A -> B.
     Variables x y z : A.
 
     Theorem eq_sym : x = y -> y = x.
@@ -350,21 +351,13 @@ Print eq_sym.
     Proof.
       red; intros h1 h2; apply h1; destruct h2; trivial.
     Qed.
-  End equality.
-
-Print eq_sym.
-
-  Section Fequal.
-    Variables A B : Type.
-    Variable f : A -> B.
-    Variables x y z : A.
 
     Theorem f_equal : x = y -> f x = f y.
     Proof.
       destruct 1; trivial.
     Defined.
 
-  End Fequal.
+  End equality.
 
 Print eq_sym.
 
