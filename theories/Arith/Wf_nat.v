@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Well-founded relations and natural numbers *)
 
 Require Import PeanoNat Lt.

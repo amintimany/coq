@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import QArith_base Orders QOrderedType GenericMinMax.
 
 (** * Maximum and Minimum of two rational numbers *)

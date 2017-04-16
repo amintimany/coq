@@ -8,6 +8,8 @@
 
 (**********************************************************************)
 
+Unset Universe Polymorphism.
+
 (** The integer logarithms with base 2. *)
 
 (** THIS FILE IS DEPRECATED.

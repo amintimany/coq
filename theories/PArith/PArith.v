@@ -8,4 +8,6 @@
 
 (** Library for positive natural numbers *)
 
+Unset Universe Polymorphism.
+
 Require Export BinNums BinPos Pnat POrderedType.

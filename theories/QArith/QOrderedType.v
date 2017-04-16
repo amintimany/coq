@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import QArith_base Equalities Orders OrdersTac.
 
 Local Open Scope Q_scope.

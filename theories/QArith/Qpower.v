@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import Zpow_facts Qfield Qreduction.
 
 Lemma Qpower_positive_1 : forall n, Qpower_positive 1 n == 1.

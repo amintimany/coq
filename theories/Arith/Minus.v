@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Properties of subtraction between natural numbers.
 
  This file is mostly OBSOLETE now, see module [PeanoNat.Nat] instead.

@@ -7,6 +7,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Export BinNums BinPos Pnat.
 Require Import BinNat Bool Equalities GenericMinMax
  OrdersFacts ZAxioms ZProperties.

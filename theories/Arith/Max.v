@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** THIS FILE IS DEPRECATED. Use [PeanoNat.Nat] instead. *)
 
 Require Import PeanoNat.

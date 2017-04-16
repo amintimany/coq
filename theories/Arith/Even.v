@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 (** Nota : this file is OBSOLETE, and left only for compatibility.
     Please consider instead predicates [Nat.Even] and [Nat.Odd]
     and Boolean functions [Nat.even] and [Nat.odd]. *)

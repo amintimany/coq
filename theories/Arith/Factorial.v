@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import PeanoNat Plus Mult Lt.
 Local Open Scope nat_scope.
 

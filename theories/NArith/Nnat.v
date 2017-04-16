@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import BinPos BinNat PeanoNat Pnat.
 
 (** * Conversions from [N] to [nat] *)

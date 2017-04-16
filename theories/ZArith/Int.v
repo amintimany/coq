@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1       *)
 (***********************************************************************)
 
+Unset Universe Polymorphism.
+
 (** * An light axiomatization of integers (used in MSetAVL). *)
 
 (** We define a signature for an integer datatype based on [Z].

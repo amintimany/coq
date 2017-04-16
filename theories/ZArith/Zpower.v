@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import Wf_nat ZArith_base Omega Zcomplements.
 Require Export Zpow_def.
 Local Open Scope Z_scope.

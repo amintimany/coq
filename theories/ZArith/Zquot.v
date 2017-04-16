@@ -6,6 +6,8 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
+Unset Universe Polymorphism.
+
 Require Import Nnat ZArith_base ROmega ZArithRing Zdiv Morphisms.
 
 Local Open Scope Z_scope.
