@@ -1186,6 +1186,7 @@ Module WProperties_fun (E:DecidableType)(M:WSfun E).
    cardinal m = fold (fun _ _ => S) m 0.
   Proof.
   intros; rewrite cardinal_1, fold_1.
+Set Printing All. Set Printing Universes.
   symmetry; apply fold_left_length; auto.
   Qed.
 

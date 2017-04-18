@@ -221,10 +221,10 @@ Ltac order_prepare :=
 Ltac order_loop :=
  match goal with
  (* First, successful situations *)
- | H : ?x < ?x |- _ => exact (lt_irrefl H)
+ | H : ?x < ?y |- _ => unify x y; exact (lt_irrefl H)
  | H : ~ ?x == ?x |- _ => exact (H (eq_refl x))
  (* Second, useless hyps *)
- | H : ?x <= ?x |- _ => clear H; order_loop
+ | H : ?x <= ?y |- _ => unify x y; clear H; order_loop
  (* Third, we eliminate equalities *)
  | H : ?x == ?y |- _ => order_eq x y H; order_loop
  (* Simultaneous le and ge is eq *)

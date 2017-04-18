@@ -131,7 +131,7 @@ Hint Constructors BoolSpec.
     Numbers in [nat] can be denoted using a decimal notation;
     e.g. [3%nat] abbreviates [S (S (S O))] *)
 
-Inductive nat : Set :=
+Monomorphic Inductive nat : Set :=
   | O : nat
   | S : nat -> nat.
 

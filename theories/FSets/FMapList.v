@@ -12,6 +12,8 @@
  [FMapInterface.S] using lists of pairs ordered (increasing) with respect to
  left projection. *)
 
+Unset Universe Polymorphism.
+
 Require Import FMapInterface.
 
 Set Implicit Arguments.

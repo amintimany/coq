@@ -2072,10 +2072,7 @@ Set Printing All.
 Set Printing Universes.
   Lemma seq_NoDup len start : NoDup (seq start len).
   Proof.
-   revert start; induction len; simpl. constructor.
-   intros.
-   constructor.
-; trivial.
+   revert start; induction len; simpl; constructor; trivial.
    rewrite in_seq. intros (H,_). apply (Lt.lt_irrefl _ H).
   Qed.
 
