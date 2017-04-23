@@ -25,6 +25,8 @@
 
 *)
 
+Unset Universe Polymorphism.
+
 Require Import Recdef FMapInterface FMapList ZArith Int FMapAVL ROmega.
 
 Set Implicit Arguments.
@@ -676,6 +678,8 @@ Module IntMake_ord (I:Int)(X: OrderedType)(D : OrderedType) <:
 
   Local Unset Keyed Unification.
 
+Set Printing All. Set Printing Universes.
+Set Function_debug.
   Function compare_aux (ee:Raw.enumeration D.t * Raw.enumeration D.t)
    { measure cardinal_e_2 ee } : comparison :=
   match ee with
@@ -706,7 +710,7 @@ Module IntMake_ord (I:Int)(X: OrderedType)(D : OrderedType) <:
    end.
 
   Lemma cons_Cmp : forall c x1 x2 d1 d2 l1 l2,
-   X.eq x1 x2 -> D.eq d1 d2 ->
+   X.eq x1 x2 -> D.eq d1 d2 -> 
    Cmp c l1 l2 -> Cmp c ((x1,d1)::l1) ((x2,d2)::l2).
   Proof.
    destruct c; simpl; intros; MX.elim_comp; auto.

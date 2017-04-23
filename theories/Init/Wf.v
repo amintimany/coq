@@ -11,6 +11,8 @@
     - well-founded induction
     from a well-founded ordering on a given set *)
 
+Unset Universe Polymorphism.
+
 Set Implicit Arguments.
 
 Require Import Notations.

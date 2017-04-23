@@ -8,6 +8,8 @@
 
 Global Set Universe Polymorphism.
 
+Unset Universe Polymorphism.
+
 Set Implicit Arguments.
 
 Require Export Notations.
@@ -299,7 +301,7 @@ End universal_quantification.
     as it expresses that [x] and [y] are equal iff every property on
     [A] which is true of [x] is also true of [y] *)
 
-Monomorphic Inductive eq (A:Type) (x:A) : A -> Prop :=
+Inductive eq (A:Type) (x:A) : A -> Prop :=
     eq_refl : x = x :>A
 
 where "x = y :> A" := (@eq A x y) : type_scope.
@@ -324,50 +326,50 @@ Set Printing All.
 
 Section Logic_lemmas.
 
-  Monomorphic Theorem absurd : forall A C:Prop, A -> ~ A -> C.
+  Theorem absurd : forall A C:Prop, A -> ~ A -> C.
   Proof.
     unfold not; intros A C h1 h2.
     destruct (h2 h1).
   Qed.
 
   Section equality.
-    Monomorphic Variables A B : Type.
-    Monomorphic Variable f : A -> B.
-    Monomorphic Variables x y z : A.
+    Variables A B : Type.
+    Variable f : A -> B.
+    Variables x y z : A.
 
-    Monomorphic Theorem eq_sym : x = y -> y = x.
+    Theorem eq_sym : x = y -> y = x.
     Proof.
       destruct 1; trivial.
     Defined.
 
-    Monomorphic Theorem eq_trans : x = y -> y = z -> x = z.
+    Theorem eq_trans : x = y -> y = z -> x = z.
     Proof.
       destruct 2; trivial.
     Defined.
 
-    Monomorphic Theorem not_eq_sym : x <> y -> y <> x.
+    Theorem not_eq_sym : x <> y -> y <> x.
     Proof.
       red; intros h1 h2; apply h1; destruct h2; trivial.
     Qed.
 
-    Monomorphic Theorem f_equal : x = y -> f x = f y.
+    Theorem f_equal : x = y -> f x = f y.
     Proof.
       destruct 1; trivial.
     Defined.
 
   End equality.
 
-  Monomorphic Definition eq_ind_r :
+  Definition eq_ind_r :
     forall (A:Type) (x:A) (P:A -> Prop), P x -> forall y:A, y = x -> P y.
     intros A x P H y H0. elim eq_sym with (1 := H0); assumption.
   Defined.
 
-  Monomorphic Definition eq_rec_r :
+  Definition eq_rec_r :
     forall (A:Type) (x:A) (P:A -> Set), P x -> forall y:A, y = x -> P y.
     intros A x P H y H0; elim eq_sym with (1 := H0); assumption.
   Defined.
 
-  Monomorphic Definition eq_rect_r :
+  Definition eq_rect_r :
     forall (A:Type) (x:A) (P:A -> Type), P x -> forall y:A, y = x -> P y.
     intros A x P H y H0; elim eq_sym with (1 := H0); assumption.
   Defined.
@@ -395,28 +397,28 @@ End EqNotations.
 
 Import EqNotations.
 
-Monomorphic Lemma rew_opp_r : forall A (P:A->Type) (x y:A) (H:x=y) (a:P y), rew H in rew <- H in a = a.
+Lemma rew_opp_r : forall A (P:A->Type) (x y:A) (H:x=y) (a:P y), rew H in rew <- H in a = a.
 Proof.
 intros.
 destruct H.
 reflexivity.
 Defined.
 
-Monomorphic Lemma rew_opp_l : forall A (P:A->Type) (x y:A) (H:x=y) (a:P x), rew <- H in rew H in a = a.
+Lemma rew_opp_l : forall A (P:A->Type) (x y:A) (H:x=y) (a:P x), rew <- H in rew H in a = a.
 Proof.
 intros.
 destruct H.
 reflexivity.
 Defined.
 
-Monomorphic Theorem f_equal2 :
+Theorem f_equal2 :
   forall (A1 A2 B:Type) (f:A1 -> A2 -> B) (x1 y1:A1)
     (x2 y2:A2), x1 = y1 -> x2 = y2 -> f x1 x2 = f y1 y2.
 Proof.
   destruct 1; destruct 1; reflexivity.
 Qed.
 
-Monomorphic Theorem f_equal3 :
+Theorem f_equal3 :
   forall (A1 A2 A3 B:Type) (f:A1 -> A2 -> A3 -> B) (x1 y1:A1)
     (x2 y2:A2) (x3 y3:A3),
     x1 = y1 -> x2 = y2 -> x3 = y3 -> f x1 x2 x3 = f y1 y2 y3.
@@ -424,7 +426,7 @@ Proof.
   destruct 1; destruct 1; destruct 1; reflexivity.
 Qed.
 
-Monomorphic Theorem f_equal4 :
+Theorem f_equal4 :
   forall (A1 A2 A3 A4 B:Type) (f:A1 -> A2 -> A3 -> A4 -> B)
     (x1 y1:A1) (x2 y2:A2) (x3 y3:A3) (x4 y4:A4),
     x1 = y1 -> x2 = y2 -> x3 = y3 -> x4 = y4 -> f x1 x2 x3 x4 = f y1 y2 y3 y4.
@@ -432,7 +434,7 @@ Proof.
   destruct 1; destruct 1; destruct 1; destruct 1; reflexivity.
 Qed.
 
-Monomorphic Theorem f_equal5 :
+Theorem f_equal5 :
   forall (A1 A2 A3 A4 A5 B:Type) (f:A1 -> A2 -> A3 -> A4 -> A5 -> B)
     (x1 y1:A1) (x2 y2:A2) (x3 y3:A3) (x4 y4:A4) (x5 y5:A5),
     x1 = y1 ->
@@ -442,7 +444,7 @@ Proof.
   destruct 1; destruct 1; destruct 1; destruct 1; destruct 1; reflexivity.
 Qed.
 
-Monomorphic Theorem f_equal_compose : forall A B C (a b:A) (f:A->B) (g:B->C) (e:a=b),
+Theorem f_equal_compose : forall A B C (a b:A) (f:A->B) (g:B->C) (e:a=b),
   f_equal g (f_equal f e) = f_equal (fun a => g (f a)) e.
 Proof.
   destruct e. reflexivity.
@@ -450,32 +452,32 @@ Defined.
 
 (** The goupoid structure of equality *)
 
-Monomorphic Theorem eq_trans_refl_l : forall A (x y:A) (e:x=y), eq_trans eq_refl e = e.
+Theorem eq_trans_refl_l : forall A (x y:A) (e:x=y), eq_trans eq_refl e = e.
 Proof.
   destruct e. reflexivity.
 Defined.
 
-Monomorphic Theorem eq_trans_refl_r : forall A (x y:A) (e:x=y), eq_trans e eq_refl = e.
+Theorem eq_trans_refl_r : forall A (x y:A) (e:x=y), eq_trans e eq_refl = e.
 Proof.
   destruct e. reflexivity.
 Defined.
 
-Monomorphic Theorem eq_sym_involutive : forall A (x y:A) (e:x=y), eq_sym (eq_sym e) = e.
+Theorem eq_sym_involutive : forall A (x y:A) (e:x=y), eq_sym (eq_sym e) = e.
 Proof.
   destruct e; reflexivity.
 Defined.
 
-Monomorphic Theorem eq_trans_sym_inv_l : forall A (x y:A) (e:x=y), eq_trans (eq_sym e) e = eq_refl.
+Theorem eq_trans_sym_inv_l : forall A (x y:A) (e:x=y), eq_trans (eq_sym e) e = eq_refl.
 Proof.
   destruct e; reflexivity.
 Defined.
 
-Monomorphic Theorem eq_trans_sym_inv_r : forall A (x y:A) (e:x=y), eq_trans e (eq_sym e) = eq_refl.
+Theorem eq_trans_sym_inv_r : forall A (x y:A) (e:x=y), eq_trans e (eq_sym e) = eq_refl.
 Proof.
   destruct e; reflexivity.
 Defined.
 
-Monomorphic Theorem eq_trans_assoc : forall A (x y z t:A) (e:x=y) (e':y=z) (e'':z=t),
+Theorem eq_trans_assoc : forall A (x y z t:A) (e:x=y) (e':y=z) (e'':z=t),
   eq_trans e (eq_trans e' e'') = eq_trans (eq_trans e e') e''.
 Proof.
   destruct e''; reflexivity.
@@ -483,7 +485,7 @@ Defined.
 
 (** Extra properties of equality *)
 
-Monomorphic Theorem eq_id_comm_l : forall A (f:A->A) (Hf:forall a, a = f a), forall a, f_equal f (Hf a) = Hf (f a).
+Theorem eq_id_comm_l : forall A (f:A->A) (Hf:forall a, a = f a), forall a, f_equal f (Hf a) = Hf (f a).
 Proof.
   intros.
   unfold f_equal.
@@ -493,7 +495,7 @@ Proof.
   reflexivity.
 Defined.
 
-Monomorphic Theorem eq_id_comm_r : forall A (f:A->A) (Hf:forall a, f a = a), forall a, f_equal f (Hf a) = Hf (f a).
+Theorem eq_id_comm_r : forall A (f:A->A) (Hf:forall a, f a = a), forall a, f_equal f (Hf a) = Hf (f a).
 Proof.
   intros.
   unfold f_equal.
@@ -509,19 +511,19 @@ Proof.
   reflexivity.
 Defined.
 
-Monomorphic Lemma eq_trans_map_distr : forall A B x y z (f:A->B) (e:x=y) (e':y=z), f_equal f (eq_trans e e') = eq_trans (f_equal f e) (f_equal f e').
+Lemma eq_trans_map_distr : forall A B x y z (f:A->B) (e:x=y) (e':y=z), f_equal f (eq_trans e e') = eq_trans (f_equal f e) (f_equal f e').
 Proof.
 destruct e'.
 reflexivity.
 Defined.
 
-Monomorphic Lemma eq_sym_map_distr : forall A B (x y:A) (f:A->B) (e:x=y), eq_sym (f_equal f e) = f_equal f (eq_sym e).
+Lemma eq_sym_map_distr : forall A B (x y:A) (f:A->B) (e:x=y), eq_sym (f_equal f e) = f_equal f (eq_sym e).
 Proof.
 destruct e.
 reflexivity.
 Defined.
 
-Monomorphic Lemma eq_trans_sym_distr : forall A (x y z:A) (e:x=y) (e':y=z), eq_sym (eq_trans e e') = eq_trans (eq_sym e') (eq_sym e).
+Lemma eq_trans_sym_distr : forall A (x y z:A) (e:x=y) (e':y=z), eq_sym (eq_trans e e') = eq_trans (eq_sym e') (eq_sym e).
 Proof.
 destruct e, e'.
 reflexivity.
@@ -616,7 +618,7 @@ Qed.
 
 (** Declaration of stepl and stepr for eq and iff *)
 
-Monomorphic Lemma eq_stepl : forall (A : Type) (x y z : A), x = y -> x = z -> z = y.
+Lemma eq_stepl : forall (A : Type) (x y z : A), x = y -> x = z -> z = y.
 Proof.
   intros A x y z H1 H2. rewrite <- H2; exact H1.
 Qed.
