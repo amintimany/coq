@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import ZArith_base ZArithRing Zcomplements Zdiv Znumtheory.
 Require Export Zpower.
 Local Open Scope Z_scope.

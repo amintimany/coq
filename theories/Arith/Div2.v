@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Nota : this file is OBSOLETE, and left only for compatibility.
     Please consider using [Nat.div2] directly, and results about it
     (see file PeanoNat). *)

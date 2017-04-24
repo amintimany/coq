@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** This file defined the strong (course-of-value, well-founded) recursion
 and proves its properties *)
 

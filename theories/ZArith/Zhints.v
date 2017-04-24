@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** This file centralizes the lemmas about [Z], classifying them
     according to the way they can be used in automatic search  *)
 

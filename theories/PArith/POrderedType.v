@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import BinPos Equalities Orders OrdersTac.
 
 Local Open Scope positive_scope.

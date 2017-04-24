@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import NAxioms NSub GenericMinMax.
 
 (** * Properties of minimum and maximum specific to natural numbers *)

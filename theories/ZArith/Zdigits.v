@@ -7,8 +7,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Bit vectors interpreted as integers.
     Contribution by Jean Duprat (ENS Lyon). *)
 

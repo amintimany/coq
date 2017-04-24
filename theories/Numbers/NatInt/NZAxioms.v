@@ -6,13 +6,9 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Initial Author : Evgeny Makarov, INRIA, 2007 *)
 
 Require Export Equalities Orders NumPrelude GenericMinMax.
-
-Unset Universe Polymorphism.
 
 (** Axiomatization of a domain with zero, successor, predecessor,
     and a bi-directional induction principle. We require [P (S n) = n]

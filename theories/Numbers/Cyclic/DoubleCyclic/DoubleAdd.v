@@ -8,8 +8,6 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Set Implicit Arguments.
 
 Require Import ZArith.

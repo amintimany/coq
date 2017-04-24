@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** * BigQ: an efficient implementation of rational numbers *)
 
 (** Initial authors: Benjamin Gregoire, Laurent Thery, INRIA, 2007 *)

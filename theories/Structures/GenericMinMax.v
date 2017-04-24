@@ -8,11 +8,6 @@
 
 Require Import Orders OrdersTac OrdersFacts Setoid Morphisms Basics.
 
-Set Printing All.
-Set Printing Universes.
-
-Unset Universe Polymorphism.
-
 (** * A Generic construction of min and max *)
 
 (** ** First, an interface for types with [max] and/or [min] *)

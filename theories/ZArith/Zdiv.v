@@ -7,8 +7,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** * Euclidean Division *)
 
 (** Initial Contribution by Claude Marché and Xavier Urbain *)

@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Base-2 Logarithm *)
 
 Require Import NZAxioms NZMulOrder NZPow.
@@ -27,8 +25,6 @@ End NZLog2Spec.
 Module Type NZLog2 (A : NZOrdAxiomsSig)(B : Pow A) := Log2 A <+ NZLog2Spec A B.
 
 (** Derived properties of logarithm *)
-
-Set Printing Universes.
 
 Module Type NZLog2Prop
  (Import A : NZOrdAxiomsSig')

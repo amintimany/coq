@@ -12,8 +12,6 @@ Require Import Bool Morphisms Setoid.
 Set Implicit Arguments.
 Unset Strict Implicit.
 
-Unset Universe Polymorphism.
-
 (** Structure with nothing inside.
     Used to force a module type T into a module via Nop <+ T. (HACK!) *)
 
@@ -126,9 +124,6 @@ Module Type DecidableTypeFull' := DecidableTypeFull <+ EqNotation.
 
 (** * Compatibility wrapper from/to the old version of
       [EqualityType] and [DecidableType] *)
-
-Set Printing All.
-Set Printing Universes.
 
 Module BackportEq (E:Eq)(F:IsEq E) <: IsEqOrig E.
  Definition eq_refl := F.eq_equiv.(@Equivalence_Reflexive _ _). 

@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import BinPos.
 Require Export BinNat.
 Require Import NAxioms NProperties.

@@ -32,25 +32,17 @@ Section Transitive_Closure.
     | t_step (y:A) : R x y -> clos_trans x y
     | t_trans (y z:A) : clos_trans x y -> clos_trans y z -> clos_trans x z.
 
-Set Printing All.
-Set Printing Universes.
-Print clos_trans.
-
   (** Alternative definition by transitive extension on the left *)
 
   Inductive clos_trans_1n (x: A) : A -> Prop :=
     | t1n_step (y:A) : R x y -> clos_trans_1n x y
     | t1n_trans (y z:A) : R x y -> clos_trans_1n y z -> clos_trans_1n x z.
 
-Print clos_trans_1n.
-
   (** Alternative definition by transitive extension on the right *)
 
   Inductive clos_trans_n1 (x: A) : A -> Prop :=
     | tn1_step (y:A) : R x y -> clos_trans_n1 x y
     | tn1_trans (y z:A) : R y z -> clos_trans_n1 x y -> clos_trans_n1 x z.
-
-Print clos_trans_n1.
 
 End Transitive_Closure.
 

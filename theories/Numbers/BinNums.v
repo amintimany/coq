@@ -8,8 +8,6 @@
 
 (** * Binary Numerical Datatypes *)
 
-Unset Universe Polymorphism.
-
 Set Implicit Arguments.
 
 Declare ML Module "z_syntax_plugin".

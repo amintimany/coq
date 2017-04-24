@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1       *)
 (***********************************************************************)
 
-Unset Universe Polymorphism.
-
 (** * Finite map library *)
 
 (** This file proposes interfaces for finite maps *)

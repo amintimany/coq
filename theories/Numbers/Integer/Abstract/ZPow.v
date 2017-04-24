@@ -8,8 +8,6 @@
 
 (** Properties of the power function *)
 
-Unset Universe Polymorphism.
-
 Require Import Bool ZAxioms ZMulOrder ZParity ZSgnAbs NZPow.
 
 Module Type ZPowProp

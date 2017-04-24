@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Export NZAxioms.
 Require Import BigNumPrelude.
 Require Import DoubleType.

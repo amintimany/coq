@@ -8,8 +8,6 @@
 (*          Pierre Letouzey, Jerome Vouillon, PPS, Paris 7, 2008        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Local Open Scope type_scope.
 
 Require Import List.

@@ -8,8 +8,6 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import BinInt.
 
 Open Scope Z_scope.

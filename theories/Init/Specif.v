@@ -15,8 +15,6 @@ Require Import Notations.
 Require Import Datatypes.
 Require Import Logic.
 
-Unset Universe Polymorphism.
-
 (** Subsets and Sigma-types *)
 
 (** [(sig A P)], or more suggestively [{x:A | P x}], denotes the subset

@@ -8,8 +8,6 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import ZArith.
 Require Import BigNumPrelude.
 Require Import NSig.

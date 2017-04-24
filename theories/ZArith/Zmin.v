@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** THIS FILE IS DEPRECATED. *)
 
 Require Import BinInt Zcompare Zorder.

@@ -7,8 +7,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Binary Integers (Pierre Crégut, CNET, Lannion, France) *)
 
 Require Export Arith_base.

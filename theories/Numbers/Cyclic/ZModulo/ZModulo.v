@@ -13,8 +13,6 @@
   the efficient arbitrary precision numbers, it provides a simple
   implementation of CyclicAxioms, hence ensuring its coherence. *)
 
-Unset Universe Polymorphism.
-
 Set Implicit Arguments.
 
 Require Import Bool.

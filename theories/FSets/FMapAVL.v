@@ -16,8 +16,6 @@
     See the comments at the beginning of FSetAVL for more details.
 *)
 
-Unset Universe Polymorphism.
-
 Require Import FMapInterface FMapList ZArith Int.
 
 Set Implicit Arguments.
@@ -981,7 +979,7 @@ Proof.
  intros.
  destruct X.compare.
  rewrite not_find_iff; auto.
- rewrite remove_min_in; red; destruct 1 as [H'|H']; [  order | ].
+ rewrite remove_min_in; red; destruct 1 as [H'|H']; [ order | ].
  generalize (remove_min_gt_tree H H'); order.
  apply find_1; auto.
  rewrite remove_min_mapsto; auto.

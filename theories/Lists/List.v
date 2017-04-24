@@ -1825,9 +1825,6 @@ End Add.
 (** ** Lists without redundancy *)
 (********************************)
 
-Set Printing All.
-Set Printing Universes.
-
 Section ReDun.
 
   Variable A : Type.
@@ -2068,8 +2065,7 @@ Section NatSeq.
      * intros [H|H]; subst; intuition auto with arith.
      * intros (H,H'). destruct (Lt.le_lt_or_eq _ _ H); intuition.
   Qed.
-Set Printing All.
-Set Printing Universes.
+
   Lemma seq_NoDup len start : NoDup (seq start len).
   Proof.
    revert start; induction len; simpl; constructor; trivial.

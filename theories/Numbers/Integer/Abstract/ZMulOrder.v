@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Export ZAddOrder.
 
 Module Type ZMulOrderProp (Import Z : ZAxiomsMiniSig').

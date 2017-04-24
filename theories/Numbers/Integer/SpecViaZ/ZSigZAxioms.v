@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import Bool ZArith OrdersFacts Nnat ZAxioms ZSig.
 
 (** * The interface [ZSig.ZType] implies the interface [ZAxiomsSig] *)

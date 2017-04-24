@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Strict order on natural numbers.
 
  This file is mostly OBSOLETE now, see module [PeanoNat.Nat] instead.

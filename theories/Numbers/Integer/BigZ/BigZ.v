@@ -8,8 +8,6 @@
 (*            Benjamin Gregoire, Laurent Thery, INRIA, 2007             *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Export BigN.
 Require Import ZProperties ZDivFloor ZSig ZSigZAxioms ZMake.
 

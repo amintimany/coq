@@ -10,8 +10,6 @@ Require Import Notations Logic Datatypes.
 
 Local Open Scope nat_scope.
 
-Unset Universe Polymorphism.
-
 (**********************************************************************)
 (** * Peano natural numbers, definitions of operations *)
 (**********************************************************************)

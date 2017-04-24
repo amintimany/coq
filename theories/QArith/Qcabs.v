@@ -10,8 +10,6 @@
 
 (** Contributed by Cédric Auger *)
 
-Unset Universe Polymorphism.
-
 Require Import Qabs Qcanon.
 
 Lemma Qred_abs (x : Q) : Qred (Qabs x) = Qabs (Qred x).

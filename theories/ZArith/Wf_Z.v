@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import BinInt.
 Require Import Zcompare.
 Require Import Zorder.
@@ -91,8 +89,7 @@ Section Efficient_Rec.
 
   Let R_wf : well_founded R.
   Proof.
-   apply (well_founded_lt_compat _ Z.to_nat R).
-   (* apply well_founded_lt_compat with Z.to_nat. *)
+   apply well_founded_lt_compat with Z.to_nat.
    intros x y (Hx,H). apply Z2Nat.inj_lt; Z.order.
   Qed.
 

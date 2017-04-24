@@ -7,8 +7,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** Binary Integers : properties of absolute value *)
 (** Initial author : Pierre Crégut (CNET, Lannion, France) *)
 

@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 (** * Zgcd_alt : an alternate version of Z.gcd, based on Euclid's algorithm *)
 
 (**

@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import QArith.
 
 Lemma Qopp_lt_compat: forall p q : Q, p < q -> - q < - p.

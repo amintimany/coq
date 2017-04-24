@@ -6,8 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Export ZArith.
 Require Export ZArithRing.
 Require Export Morphisms Setoid Bool.

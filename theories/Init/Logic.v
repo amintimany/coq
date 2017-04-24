@@ -6,10 +6,6 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Global Set Universe Polymorphism.
-
-Unset Universe Polymorphism.
-
 Set Implicit Arguments.
 
 Require Export Notations.
@@ -321,9 +317,6 @@ Hint Resolve I conj or_introl or_intror : core.
 Hint Resolve eq_refl: core. 
 Hint Resolve ex_intro ex_intro2: core.
 
-Set Printing Universes.
-Set Printing All.
-
 Section Logic_lemmas.
 
   Theorem absurd : forall A C:Prop, A -> ~ A -> C.
@@ -347,15 +340,15 @@ Section Logic_lemmas.
       destruct 2; trivial.
     Defined.
 
-    Theorem not_eq_sym : x <> y -> y <> x.
-    Proof.
-      red; intros h1 h2; apply h1; destruct h2; trivial.
-    Qed.
-
     Theorem f_equal : x = y -> f x = f y.
     Proof.
       destruct 1; trivial.
     Defined.
+
+    Theorem not_eq_sym : x <> y -> y <> x.
+    Proof.
+      red; intros h1 h2; apply h1; destruct h2; trivial.
+    Qed.
 
   End equality.
 

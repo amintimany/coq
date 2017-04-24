@@ -12,8 +12,6 @@
 Author: Arnaud Spiwack (+ Pierre Letouzey)
 *)
 
-Unset Universe Polymorphism.
-
 Require Import List.
 Require Import Min.
 Require Export Int31.

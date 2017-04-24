@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import Bool. (* To get the orb and negb function *)
 Require Import RelationPairs.
 Require Export NStrongRec.

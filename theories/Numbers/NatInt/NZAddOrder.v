@@ -8,8 +8,6 @@
 (*                      Evgeny Makarov, INRIA, 2007                     *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Import NZAxioms NZBase NZMul NZOrder.
 
 Module Type NZAddOrderProp (Import NZ : NZOrdAxiomsSig').
@@ -168,5 +166,3 @@ Qed.
 
 End NZAddOrderProp.
 
-Set Printing All.
-Set Printing Universes.

@@ -7,13 +7,9 @@
 (*         *       GNU Lesser General Public License Version 2.1        *)
 (************************************************************************)
 
-Unset Universe Polymorphism.
-
 Require Export BinNums.
 Require Import Eqdep_dec EqdepFacts RelationClasses Morphisms Setoid
  Equalities Orders OrdersFacts GenericMinMax Le Plus.
-
-Unset Universe Polymorphism.
 
 Require Export BinPosDef.
 
