@@ -474,7 +474,6 @@ let add_section_replacement f g poly hyps univs =
   | (vars,exps,abs)::sl ->
     let () = check_same_poly poly vars in
     let sechyps,ctx,univs = extract_hyps (vars,hyps,univs) in
-  output_string stderr ("\n add sec repl context is: " ^ (Pp.string_of_ppcmds (Univ.pr_universe_context_set Univ.Level.pr ctx)) ^ "\n"); flush stderr;
     let ctx = Univops.restrict_universe_context ctx univs in
     let ctx = Univ.ContextSet.to_context ctx in
     let subst, ctx = Univ.abstract_universes true ctx in

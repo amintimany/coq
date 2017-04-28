@@ -170,9 +170,7 @@ let cache_constant ((sp,kn), obj) =
   in
   let cstcnt = Global.constraints_of_constant_body cst in
   let cstcnt_univs = Univ.universes_of_constraints cstcnt in
-  output_string stderr ("\n univs_of constraints of " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr cstcnt_univs)) ^ "\n"); flush stderr;
   let univs = Univ.LSet.union univs cstcnt_univs in
-  output_string stderr ("\n univs_of " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
   add_section_constant cst.const_polymorphic kn' cst.const_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp obj.cst_hyps;
   add_constant_kind (constant_of_kn kn) obj.cst_kind
@@ -341,8 +339,6 @@ let cache_inductive ((sp,kn),(dhyps,mie)) =
   assert (eq_mind kn' (mind_of_kn kn));
   let mind = Global.lookup_mind kn' in
   let univs = Univops.universes_of_inductive mind in
-  output_string stderr ("\n Them stored univs_of inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.pr_universe_info_ind Univ.Level.pr mind.mind_universes)) ^ "\n"); flush stderr;
-  output_string stderr ("\n univs_of inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " are " ^ (Pp.string_of_ppcmds (Univ.LSet.pr Univ.Level.pr univs)) ^ "\n"); flush stderr;
   add_section_kn mind.mind_polymorphic kn' mind.mind_hyps univs;
   Dischargedhypsmap.set_discharged_hyps sp dhyps;
   List.iter (fun (sp, ref) -> Nametab.push (Nametab.Until 1) sp ref) names
@@ -353,7 +349,6 @@ let discharge_inductive ((sp,kn),(dhyps,mie)) =
   let repl = replacement_context () in
   let sechyps,usubst,uctx = section_segment_of_mutual_inductive mind in
   let mib = Discharge.process_inductive (named_of_variable_context sechyps,uctx) repl mie in
-  output_string stderr ("\n discharge inductive " ^ (Pp.string_of_ppcmds (Names.pr_kn kn)) ^ " context is: " ^ (Pp.string_of_ppcmds (Univ.pr_universe_context Univ.Level.pr uctx)) ^ "\n"); flush stderr;
   Some (discharged_hyps kn sechyps, mib)
 
 let dummy_one_inductive_entry mie = {
