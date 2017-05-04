@@ -116,8 +116,8 @@ let instance_hook k info global imps ?hook cst =
 let declare_instance_constant k info global imps ?hook id pl poly evm term termtype =
   let kind = IsDefinition Instance in
   let evm = 
-    let levels = Univ.LSet.union (Universes.universes_of_constr termtype) 
-				 (Universes.universes_of_constr term) in
+    let levels = Univ.LSet.union (Univops.universes_of_constr termtype) 
+				 (Univops.universes_of_constr term) in
     Evd.restrict_universe_context evm levels 
   in
   let pl, uctx = Evd.universe_context ?names:pl evm in
@@ -382,13 +382,19 @@ let context poly l =
     with e when CErrors.noncritical e ->
       error "Anonymous variables not allowed in contexts."
   in
-  let uctx = ref (Evd.universe_context_set !evars) in
+  let uctx = Evd.universe_context_set !evars in
+  let insect = Lib.sections_are_opened () in
+  let inmodtype = Lib.sections_are_opened () in
+  let discharge = poly && not insect in
+  let uctx =
+    if not discharge then
+      (Declare.declare_universe_context poly uctx; Univ.ContextSet.empty)
+    else uctx
+  in
   let fn status (id, b, t) =
-    if Lib.is_modtype () && not (Lib.sections_are_opened ()) then
-      let ctx = Univ.ContextSet.to_context !uctx in
+    if inmodtype && not insect then
       (* Declare the universe context once *)
-      let () = uctx := Univ.ContextSet.empty in
-      let decl = (ParameterEntry (None,poly,(t,ctx),None), IsAssumption Logical) in
+      let decl = (ParameterEntry (None,poly,(t,Univ.ContextSet.to_context uctx),None), IsAssumption Logical) in
       let cst = Declare.declare_constant ~internal:Declare.InternalTacticRequest id decl in
 	match class_of_constr !evars (EConstr.of_constr t) with
 	| Some (rels, ((tc,_), args) as _cl) ->
@@ -405,9 +411,9 @@ let context poly l =
       let impl = List.exists test impls in
       let decl = (Discharge, poly, Definitional) in
       let nstatus =
-        pi3 (Command.declare_assumption false decl (t, !uctx) [] [] impl
-          Vernacexpr.NoInline (Loc.ghost, id))
+        pi3 (Command.declare_assumption false decl (t, uctx) [] [] impl
+               Vernacexpr.NoInline (Loc.ghost, id))
       in
-      let () = uctx := Univ.ContextSet.empty in
 	status && nstatus
-  in List.fold_left fn true (List.rev ctx)
+  in
+  List.fold_left fn true (List.rev ctx)

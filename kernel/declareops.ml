@@ -49,6 +49,11 @@ let instantiate cb c =
     Vars.subst_instance_constr (Univ.UContext.instance cb.const_universes) c
   else c
 
+let instantiate_constraints cb cst =
+  if cb.const_polymorphic then 
+    Univ.subst_instance_constraints (Univ.UContext.instance cb.const_universes) cst
+  else cst
+
 let body_of_constant otab cb = match cb.const_body with
   | Undef _ -> None
   | Def c -> Some (instantiate cb (force_constr c))
@@ -61,13 +66,15 @@ let type_of_constant cb =
       if t' == t then x else RegularArity t'
   | TemplateArity _ as x -> x
 
-let constraints_of_constant otab cb = Univ.Constraint.union 
-  (Univ.UContext.constraints cb.const_universes)
-  (match cb.const_body with
-  | Undef _ -> Univ.empty_constraint
-  | Def c -> Univ.empty_constraint
-  | OpaqueDef o ->
-      Univ.ContextSet.constraints (Opaqueproof.force_constraints otab o))
+let constraints_of_constant otab cb =
+  let cst = Univ.Constraint.union 
+    (Univ.UContext.constraints cb.const_universes)
+    (match cb.const_body with
+    | Undef _ -> Univ.empty_constraint
+    | Def c -> Univ.empty_constraint
+    | OpaqueDef o ->
+        Univ.ContextSet.constraints (Opaqueproof.force_constraints otab o))
+   in instantiate_constraints cb cst
 
 let universes_of_constant otab cb = 
   match cb.const_body with
@@ -260,6 +267,7 @@ let subst_mind_body sub mib =
       Context.Rel.map (subst_mps sub) mib.mind_params_ctxt;
     mind_packets = Array.smartmap (subst_mind_packet sub) mib.mind_packets ;
     mind_polymorphic = mib.mind_polymorphic;
+    mind_cumulative = mib.mind_cumulative;
     mind_universes = mib.mind_universes;
     mind_private = mib.mind_private;
     mind_typing_flags = mib.mind_typing_flags;
@@ -267,12 +275,12 @@ let subst_mind_body sub mib =
 
 let inductive_instance mib =
   if mib.mind_polymorphic then
-    Univ.UContext.instance mib.mind_universes
+    Univ.UContext.instance (Univ.UInfoInd.univ_context mib.mind_universes)
   else Univ.Instance.empty
 
 let inductive_context mib =
   if mib.mind_polymorphic then 
-    Univ.instantiate_univ_context mib.mind_universes 
+    Univ.instantiate_univ_context (Univ.UInfoInd.univ_context mib.mind_universes)
   else Univ.UContext.empty
 
 (** {6 Hash-consing of inductive declarations } *)
@@ -305,7 +313,7 @@ let hcons_mind mib =
   { mib with
     mind_packets = Array.smartmap hcons_mind_packet mib.mind_packets;
     mind_params_ctxt = hcons_rel_context mib.mind_params_ctxt;
-    mind_universes = Univ.hcons_universe_context mib.mind_universes }
+    mind_universes = Univ.hcons_universe_info_ind mib.mind_universes }
 
 (** {6 Stm machinery } *)
 

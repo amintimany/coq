@@ -123,6 +123,10 @@ let coq_constant s =
   Coqlib.gen_constant_in_modules "RecursiveDefinition"
     Coqlib.init_modules s;;
 
+let coq_reference s =
+  Coqlib.gen_reference_in_modules "RecursiveDefinition"
+    Coqlib.init_modules s;;
+
 let find_reference sl s =
   let dp = Names.DirPath.make (List.rev_map Id.of_string sl) in
   Nametab.locate (make_qualid dp (Id.of_string s))
@@ -486,9 +490,14 @@ let h_intros l =
 
 let h_id = Id.of_string "h"
 let hrec_id = Id.of_string "hrec"
-let well_founded = function () -> EConstr.of_constr (coq_constant "well_founded")
-let acc_rel = function () -> EConstr.of_constr (coq_constant "Acc")
-let acc_inv_id = function () -> EConstr.of_constr (coq_constant "Acc_inv")
+(* let well_founded = function () -> EConstr.of_constr (coq_constant "well_founded") *)
+(* let acc_rel = function () -> EConstr.of_constr (coq_constant "Acc") *)
+(* let acc_inv_id = function () -> EConstr.of_constr (coq_constant "Acc_inv") *)
+(* let well_founded_ltof = function () ->  EConstr.of_constr (Coqlib.coq_constant "" ["Arith";"Wf_nat"] "well_founded_ltof") *)
+let well_founded = function () -> (coq_reference "well_founded")
+let acc_rel = function () -> (coq_reference "Acc")
+let acc_inv_id = function () -> (coq_reference "Acc_inv")
+(* let well_founded_ltof = function () ->  (Coqlib.coq_constant "" ["Arith";"Wf_nat"] "well_founded_ltof") *)
 let well_founded_ltof = function () ->  EConstr.of_constr (Coqlib.coq_constant "" ["Arith";"Wf_nat"] "well_founded_ltof")
 let ltof_ref = function  () -> (find_reference ["Coq";"Arith";"Wf_nat"] "ltof")
 
@@ -544,3 +553,14 @@ type tcc_lemma_value =
   | Undefined
   | Value of Constr.constr
   | Not_needed
+
+let check_type t = fun gls ->
+  let sigma = project gls in
+  let env = pf_env gls in
+  let sigma, _ = Typing.type_of env sigma t in
+  Refiner.tclEVARS sigma gls
+
+let check_poly_app hd args k = 
+  Tacticals.pf_constr_of_global hd (fun hdc ->
+  let term = EConstr.mkApp (hdc, args) in
+  tclTHEN (check_type term) (k term) )

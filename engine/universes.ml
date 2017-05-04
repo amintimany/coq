@@ -338,14 +338,14 @@ let fresh_constant_instance env c inst =
 let fresh_inductive_instance env ind inst = 
   let mib, mip = Inductive.lookup_mind_specif env ind in
     if mib.Declarations.mind_polymorphic then
-      let inst, ctx = fresh_instance_from mib.Declarations.mind_universes inst in
+      let inst, ctx = fresh_instance_from (Univ.UInfoInd.univ_context mib.Declarations.mind_universes) inst in
 	((ind,inst), ctx)
     else ((ind,Instance.empty), ContextSet.empty)
 
 let fresh_constructor_instance env (ind,i) inst = 
   let mib, mip = Inductive.lookup_mind_specif env ind in
     if mib.Declarations.mind_polymorphic then
-      let inst, ctx = fresh_instance_from mib.Declarations.mind_universes inst in
+      let inst, ctx = fresh_instance_from (Univ.UInfoInd.univ_context mib.Declarations.mind_universes) inst in
 	(((ind,i),inst), ctx)
     else (((ind,i),Instance.empty), ContextSet.empty)
 
@@ -360,14 +360,14 @@ let unsafe_constant_instance env c =
 let unsafe_inductive_instance env ind = 
   let mib, mip = Inductive.lookup_mind_specif env ind in
     if mib.Declarations.mind_polymorphic then
-      let inst, ctx = unsafe_instance_from mib.Declarations.mind_universes in
+      let inst, ctx = unsafe_instance_from (Univ.UInfoInd.univ_context mib.Declarations.mind_universes) in
 	((ind,inst), ctx)
     else ((ind,Instance.empty), UContext.empty)
 
 let unsafe_constructor_instance env (ind,i) = 
   let mib, mip = Inductive.lookup_mind_specif env ind in
     if mib.Declarations.mind_polymorphic then
-      let inst, ctx = unsafe_instance_from mib.Declarations.mind_universes in
+      let inst, ctx = unsafe_instance_from (Univ.UInfoInd.univ_context mib.Declarations.mind_universes) in
 	(((ind,i),inst), ctx)
     else (((ind,i),Instance.empty), UContext.empty)
 
@@ -460,7 +460,7 @@ let type_of_reference env r =
   | IndRef ind ->
      let (mib, oib as specif) = Inductive.lookup_mind_specif env ind in
        if mib.mind_polymorphic then
-	 let inst, ctx = fresh_instance_from mib.mind_universes None in
+	 let inst, ctx = fresh_instance_from (Univ.UInfoInd.univ_context mib.mind_universes) None in
 	 let ty = Inductive.type_of_inductive env (specif, inst) in
 	   ty, ctx
        else
@@ -469,7 +469,7 @@ let type_of_reference env r =
   | ConstructRef cstr ->
      let (mib,oib as specif) = Inductive.lookup_mind_specif env (inductive_of_constructor cstr) in
        if mib.mind_polymorphic then
-	 let inst, ctx = fresh_instance_from mib.mind_universes None in
+	 let inst, ctx = fresh_instance_from (Univ.UInfoInd.univ_context mib.mind_universes) None in
 	   Inductive.type_of_constructor (cstr,inst) specif, ctx
        else Inductive.type_of_constructor (cstr,Instance.empty) specif, ContextSet.empty
 
@@ -976,36 +976,6 @@ let normalize_context_set ctx us algs =
 (* let normalize_conkey = Profile.declare_profile "normalize_context_set" *)
 (* let normalize_context_set a b c = Profile.profile3 normalize_conkey normalize_context_set a b c *)
 
-let universes_of_constr c =
-  let rec aux s c = 
-    match kind_of_term c with
-    | Const (_, u) | Ind (_, u) | Construct (_, u) ->
-      LSet.fold LSet.add (Instance.levels u) s
-    | Sort u when not (Sorts.is_small u) -> 
-      let u = univ_of_sort u in
-      LSet.fold LSet.add (Universe.levels u) s
-    | _ -> fold_constr aux s c
-  in aux LSet.empty c
-
-let restrict_universe_context (univs,csts) s =
-  (* Universes that are not necessary to typecheck the term.
-     E.g. univs introduced by tactics and not used in the proof term. *)
-  let diff = LSet.diff univs s in
-  let rec aux diff candid univs ness = 
-    let (diff', candid', univs', ness') = 
-      Constraint.fold
-	(fun (l, d, r as c) (diff, candid, univs, csts) ->
-	  if not (LSet.mem l diff) then
-	    (LSet.remove r diff, candid, univs, Constraint.add c csts)
-	  else if not (LSet.mem r diff) then
-	    (LSet.remove l diff, candid, univs, Constraint.add c csts)
-	  else (diff, Constraint.add c candid, univs, csts))
-	candid (diff, Constraint.empty, univs, ness)
-    in
-      if ness' == ness then (LSet.diff univs diff', ness)
-      else aux diff' candid' univs' ness'
-  in aux diff csts univs Constraint.empty
-
 let simplify_universe_context (univs,csts) =
   let uf = UF.create () in
   let noneqs =
@@ -1118,3 +1088,14 @@ let solve_constraints_system levels level_bounds level_min =
     done;
   done;
   v
+
+
+(** Operations for universe_info_ind *)
+
+(** Given a universe context representing constraints of an inductive
+    this function produces a UInfoInd.t that with the trivial subtyping relation. *)
+let univ_inf_ind_from_universe_context univcst =
+  let freshunivs = Instance.of_array
+      (Array.map (fun _ -> new_univ_level ())
+         (Instance.to_array (UContext.instance univcst)))
+  in UInfoInd.from_universe_context univcst freshunivs

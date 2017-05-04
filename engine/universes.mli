@@ -210,10 +210,6 @@ val unsafe_type_of_global : Globnames.global_reference -> types
 val nf_evars_and_universes_opt_subst : (existential -> constr option) -> 
   universe_opt_subst -> constr -> constr
 
-(** Shrink a universe context to a restricted set of variables *)
-
-val universes_of_constr : constr -> universe_set
-val restrict_universe_context : universe_context_set -> universe_set -> universe_context_set
 val simplify_universe_context : universe_context_set -> 
   universe_context_set * universe_level_subst
 
@@ -227,3 +223,9 @@ val pr_universe_opt_subst : universe_opt_subst -> Pp.std_ppcmds
 
 val solve_constraints_system : universe option array -> universe array -> universe array ->
   universe array
+
+(** Operations for universe_info_ind *)
+
+(** Given a universe context representing constraints of an inductive
+    this function produces a UInfoInd.t that with the trivial subtyping relation. *)
+val univ_inf_ind_from_universe_context : universe_context -> universe_info_ind

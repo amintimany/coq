@@ -27,6 +27,7 @@ End withoutpoly.
 
 Set Universe Polymorphism.
 
+
 Inductive empty :=. 
 Inductive emptyt : Type :=. 
 Inductive singleton : Type :=
@@ -303,7 +304,9 @@ Set Printing Universes.
 Axiom admit : forall A, A.
 Record R := {O : Type}.
 
-Definition RL (x : R@{i}) : ltac:(let u := constr:(Type@{i}:Type@{j}) in exact (R@{j}) ) := {|O := @O x|}.
+Definition RL (x : R@{i}) : ltac:(let u := constr:(Type@{i}:Type@{j}) in
+                                  exact (R@{j}) ) := {|O := @O x|}.
+
 Definition RLRL : forall x : R, RL x = RL (RL x) := fun x => eq_refl.
 Definition RLRL' : forall x : R, RL x = RL (RL x).
   intros. apply eq_refl.
@@ -322,3 +325,44 @@ Fail Definition bad : False := TypeNeqSmallType.paradox (unwrap' Type (wrap _
 Type)) eq_refl.
 
 End Hurkens'.
+
+  Set Printing Universes.
+
+Set Universe Polymorphism.
+Module Type Foo.
+  Context {A B : Type}.
+
+  Definition foo : Type := B.
+End Foo.
+
+Module F.
+  Context {A B : Type}.
+  Definition foo : Type := B.
+End F.
+
+Set Universe Polymorphism.
+
+Cumulative Record box (X : Type) (T := Type) : Type := wrap { unwrap : T }.
+
+Section test_letin_subtyping.
+  Universe i j k i' j' k'.
+  Constraint j < j'.
+
+  Context (W : Type) (X : box@{i j k} W).
+  Definition Y := X : box@{i' j' k'} W.
+
+  Universe i1 j1 k1 i2 j2 k2.
+  Constraint i1 < i2.
+  Constraint k2 < k1.
+  Context (V : Type).
+
+  Definition Z : box@{i1 j1 k1} V := {| unwrap := V |}.
+  Definition Z' : box@{i2 j2 k2} V := {| unwrap := V |}.
+  Lemma ZZ' : @eq (box@{i2 j2 k2} V) Z Z'.
+  Proof.
+    Set Printing All. Set Printing Universes.
+    cbv.
+    reflexivity.
+  Qed.
+
+End test_letin_subtyping.

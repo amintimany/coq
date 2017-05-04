@@ -1056,7 +1056,9 @@ module Instance : sig
     val subst_fn : universe_level_subst_fn -> t -> t
     val subst : universe_level_subst -> t -> t
     val pr : t -> Pp.std_ppcmds
-    val check_eq : t check_function 
+    val check_eq : t check_function
+    val length : t -> int
+    val append : t -> t -> t
 end = 
 struct
   type t = Level.t array
@@ -1099,6 +1101,7 @@ struct
 	(* [h] must be positive. *)
 	let h = !accu land 0x3FFFFFFF in
 	  h
+
   end
 
   module HInstance = Hashcons.Make(HInstancestruct)
@@ -1135,6 +1138,10 @@ struct
 	   (Int.equal i (Array.length t1)) || (check_eq_level g t1.(i) t2.(i) && aux (i + 1))
 	 in aux 0)
 
+  let length = Array.length
+
+  let append = Array.append
+  
 end
 
 type universe_instance = Instance.t
@@ -1156,6 +1163,43 @@ end
 
 type universe_context = UContext.t
 
+module UInfoInd =
+struct
+  type t = universe_context * universe_context
+
+  let make x =
+    if (Array.length (UContext.instance (snd x))) =
+       (Array.length (UContext.instance (fst x))) * 2 then x
+    else anomaly (Pp.str "Invalid subtyping information encountered!")
+
+  let empty = (UContext.empty, UContext.empty)
+
+  let halve_context ctx =
+    let len = Array.length ctx in
+    let halflen = len / 2 in
+    ((Array.sub ctx 0 halflen), (Array.sub ctx halflen halflen))
+
+  let univ_context (univcst, subtypcst) = univcst
+  let subtyp_context (univcst, subtypcst) = subtypcst
+
+  let create_trivial_subtyping ctx ctx' =
+    CArray.fold_left_i
+      (fun i cst l -> Constraint.add (l, Eq, Array.get ctx' i) cst)
+      Constraint.empty ctx
+
+  let from_universe_context univcst freshunivs =
+    let inst = (UContext.instance univcst) in
+    assert (Array.length freshunivs = Array.length inst);
+    (univcst, UContext.make (Array.append inst freshunivs,
+                             create_trivial_subtyping inst freshunivs))
+
+  let subtyping_susbst (univcst, subtypcst) =
+      let (_, ctx') = (halve_context (UContext.instance subtypcst)) in ctx'
+
+end
+
+type universe_info_ind = UInfoInd.t
+
 module ContextSet =
 struct
   type t = LSet.t constrained
@@ -1165,6 +1209,8 @@ struct
   let make ctx cst = (ctx, cst)
 end
 type universe_context_set = ContextSet.t
+
+
 
 (** Substitutions. *)
 
