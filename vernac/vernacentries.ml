@@ -1384,7 +1384,7 @@ let _ =
     { optsync  = true;
       optdepr  = false;
       optname  = "inductive cumulativity";
-      optkey   = ["Ind"; "Cumulativity"];
+      optkey   = ["Inductive"; "Cumulativity"];
       optread  = Flags.is_inductive_cumulativity;
       optwrite = Flags.make_inductive_cumulativity }
 
