@@ -115,8 +115,8 @@ let instance_hook k info global imps ?hook cst =
 let declare_instance_constant k info global imps ?hook id pl poly evm term termtype =
   let kind = IsDefinition Instance in
   let evm = 
-    let levels = Univ.LSet.union (Universes.universes_of_constr termtype) 
-				 (Universes.universes_of_constr term) in
+    let levels = Univ.LSet.union (Univops.universes_of_constr termtype) 
+				 (Univops.universes_of_constr term) in
     Evd.restrict_universe_context evm levels 
   in
   let pl, uctx = Evd.universe_context ?names:pl evm in
@@ -407,6 +407,8 @@ let context poly l =
         pi3 (Command.declare_assumption false decl (t, !uctx) [] [] impl
           Vernacexpr.NoInline (Loc.tag id))
       in
-      let () = uctx := Univ.ContextSet.empty in
 	status && nstatus
-  in List.fold_left fn true (List.rev ctx)
+  in 
+  if Lib.sections_are_opened () then
+    Declare.declare_universe_context poly !uctx;
+  List.fold_left fn true (List.rev ctx)
