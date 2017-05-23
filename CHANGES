@@ -74,6 +74,13 @@ Tools
   warnings when a deprecated feature is used.  Please upgrade your _CoqProject
   accordingly.
 
+
+Universes
+
+- Cumulative inductive types. see prefixes "Cumulative", "NonCumulative"
+  for inductive definitions and the option "Set Inductive Cumulativity"
+  in the reference manual.
+
 Changes from V8.6beta1 to V8.6
 ==============================
 
