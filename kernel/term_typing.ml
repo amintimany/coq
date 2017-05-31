@@ -227,7 +227,7 @@ let feedback_completion_typecheck =
       feedback ~id:state_id Feedback.Complete)
 
 let abstract_constant_universes abstract uctx =
-  if abstract then
+  if not abstract then
     Univ.empty_level_subst, Monomorphic_const uctx
   else
     let sbst, auctx = Univ.abstract_universes uctx in
