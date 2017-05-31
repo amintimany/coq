@@ -555,7 +555,6 @@ and evar_eqappr_x ?(rhs_is_already_stuck = false) ts env evd pbty
                 try compare_heads i
                 with Univ.UniverseInconsistency p -> UnifFailure (i, UnifUnivInconsistency p));
                  (fun i -> exact_ise_stack2 env i (evar_conv_x ts) sk sk')]
-(* >>>>>>> Make unification use subtyping info of inductives *)
   in
   let flex_maybeflex on_left ev ((termF,skF as apprF),cstsF) ((termM, skM as apprM),cstsM) vM =
     let switch f a b = if on_left then f a b else f b a in
