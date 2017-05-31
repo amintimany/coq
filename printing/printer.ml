@@ -1006,8 +1006,10 @@ let pr_assumptionset env s =
 let xor a b = 
   (a && not b) || (not a && b)
 
-let pr_cumulative b =
-  if b then str "Cumulative " else str "NonCumulative "
+let pr_cumulative poly cum =
+  if poly then
+    if cum then str "Cumulative " else str "NonCumulative "
+  else mt ()
 
 let pr_polymorphic b = 
   let print = xor (Flags.is_universe_polymorphism ()) b in
