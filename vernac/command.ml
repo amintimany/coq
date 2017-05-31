@@ -669,7 +669,7 @@ let interp_mutual_inductive (paramsl,indl) notations cum poly prv finite =
       mind_entry_universes = univs;
     }
   in
-  (if poly then
+  (if poly && cum then
       Inductiveops.infer_inductive_subtyping env_ar evd mind_ent
    else mind_ent), pl, impls
 
