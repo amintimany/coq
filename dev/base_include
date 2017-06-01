@@ -196,7 +196,7 @@ let qid = Libnames.qualid_of_string;;
 (* parsing of terms *)
 
 let parse_constr = Pcoq.parse_string Pcoq.Constr.constr;;
-let parse_tac    = Pcoq.parse_string Ltac_plugin.Pltac.tactic;;
+(*let parse_tac    = Pcoq.parse_string Ltac_plugin.Pltac.tactic;;*)
 let parse_vernac = Pcoq.parse_string Pcoq.Vernac_.vernac;;
 
 (* build a term of type glob_constr without type-checking or resolution of 
@@ -233,7 +233,7 @@ let pf_e gl s =
 let _ = Flags.in_debugger := false
 let _ = Flags.in_toplevel := true
 let _ = Constrextern.set_extern_reference
-  (fun loc _ r -> Libnames.Qualid (loc,Nametab.shortest_qualid_of_global Idset.empty r));;
+  (fun ?loc _ r -> Libnames.Qualid (loc,Nametab.shortest_qualid_of_global Idset.empty r));;
 
 open Coqloop
 let go = loop
