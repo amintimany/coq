@@ -1289,9 +1289,6 @@ let instantiate_univ_context (ctx, csts) =
 let instantiate_cumulativity_info (univcst, subtpcst) = 
   (instantiate_univ_context univcst, instantiate_univ_context subtpcst)
 
-let instantiate_univ_constraints u (_, csts) = 
-  subst_instance_constraints u csts
-
 let make_instance_subst i = 
   let arr = Instance.to_array i in
     Array.fold_left_i (fun i acc l ->
@@ -1303,6 +1300,9 @@ let make_inverse_instance_subst i =
     Array.fold_left_i (fun i acc l ->
       LMap.add (Level.var i) l acc)
       LMap.empty arr
+
+let make_abstract_instance (ctx, _) = 
+  Array.mapi (fun i l -> Level.var i) ctx
 
 let abstract_universes ctx =
   let instance = UContext.instance ctx in

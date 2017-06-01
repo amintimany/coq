@@ -451,13 +451,13 @@ val abstract_universes : universe_context -> universe_level_subst * abstract_uni
 
 val abstract_cumulativity_info : cumulativity_info -> universe_level_subst * abstract_cumulativity_info
 
+val make_abstract_instance : abstract_universe_context -> universe_instance
+
 (** Get the instantiated graph. *)
 val instantiate_univ_context : abstract_universe_context -> universe_context
 
 (** Get the instantiated graphs for both universe constraints and subtyping constraints. *)
 val instantiate_cumulativity_info : abstract_cumulativity_info -> cumulativity_info
-
-(* val instantiate_univ_constraints : universe_instance -> universe_context -> constraints *)
 
 (** {6 Pretty-printing of universes. } *)
 

@@ -239,15 +239,15 @@ let check_subtyping cumi paramsctxt env_ar inds =
     let instance_other = Univ.subst_univs_level_instance sbsubst (Univ.UContext.instance uctx) in
     let constraints_other = Univ.subst_univs_level_constraints sbsubst (Univ.UContext.constraints uctx) in
     let uctx_other = Univ.UContext.make (instance_other, constraints_other) in
-    let env' = Environ.push_context uctx env_ar in
-    let env'' = Environ.push_context uctx_other env' in
-    let envsb = push_context (CumulativityInfo.subtyp_context cumi) env'' in
+    let env = Environ.push_context uctx env_ar in
+    let env = Environ.push_context uctx_other env in
+    let env = push_context (CumulativityInfo.subtyp_context cumi) env in
     (* process individual inductive types: *)
     Array.iter (fun (id,cn,lc,(sign,arity)) ->
       match arity with
         | RegularArity (_, full_arity, _) ->
-           check_subtyping_arity_constructor envsb dosubst full_arity numparams true;
-           Array.iter (fun cnt -> check_subtyping_arity_constructor envsb dosubst cnt numparams false) lc
+           check_subtyping_arity_constructor env dosubst full_arity numparams true;
+           Array.iter (fun cnt -> check_subtyping_arity_constructor env dosubst cnt numparams false) lc
         | TemplateArity _ -> ()
     ) inds
 

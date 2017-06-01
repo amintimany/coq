@@ -104,17 +104,21 @@ let check_inductive cst env mp1 l info1 mp2 mib2 spec2 subst1 subst2 reso1 reso2
       | IndType ((_,0), mib) -> Declareops.subst_mind_body subst1 mib
       | _ -> error (InductiveFieldExpected mib2)
   in
-  let poly = 
-    if not (Declareops.inductive_is_polymorphic mib1
-            == Declareops.inductive_is_polymorphic mib2) then
-      error (PolymorphicStatusExpected (Declareops.inductive_is_polymorphic mib2))
-    else Declareops.inductive_is_polymorphic mib2
-  in
-  let u = 
-    if poly then 
-      CErrors.error ("Checking of subtyping of polymorphic" ^
-		       " inductive types not implemented")
-    else Instance.empty
+  let u =
+    let process inst inst' =
+      if Univ.Instance.equal inst inst' then inst else error IncompatibleInstances
+    in
+    match mib1.mind_universes, mib2.mind_universes with
+    | Monomorphic_ind _, Monomorphic_ind _ -> Univ.Instance.empty
+    | Polymorphic_ind auctx, Polymorphic_ind auctx' ->
+      process
+        (Univ.AUContext.instance auctx) (Univ.AUContext.instance auctx')
+    | Cumulative_ind cumi, Cumulative_ind cumi' ->
+      process
+        (Univ.AUContext.instance (Univ.ACumulativityInfo.univ_context cumi))
+        (Univ.AUContext.instance (Univ.ACumulativityInfo.univ_context cumi'))
+    | _ -> error 
+             (CumulativeStatusExpected (Declareops.inductive_is_cumulative mib2))
   in
   let mib2 =  Declareops.subst_mind_body subst2 mib2 in
   let check_inductive_type cst name env t1 t2 =
@@ -150,7 +154,7 @@ let check_inductive cst env mp1 l info1 mp2 mib2 spec2 subst1 subst2 reso1 reso2
 	error (NotConvertibleInductiveField name)
       | _ -> (s1, s2) in
     check_conv (NotConvertibleInductiveField name)
-      cst poly u infer_conv_leq env (mkArity (ctx1,s1)) (mkArity (ctx2,s2))
+      cst (inductive_is_polymorphic mib1) u infer_conv_leq env (mkArity (ctx1,s1)) (mkArity (ctx2,s2))
   in
 
   let check_packet cst p1 p2 =
@@ -178,7 +182,7 @@ let check_inductive cst env mp1 l info1 mp2 mib2 spec2 subst1 subst2 reso1 reso2
   let check_cons_types i cst p1 p2 =
     Array.fold_left3
       (fun cst id t1 t2 -> check_conv (NotConvertibleConstructorField id) cst
-	poly u infer_conv env t1 t2)
+	(inductive_is_polymorphic mib1) u infer_conv env t1 t2)
       cst
       p2.mind_consnames
       (arities_of_specif (mind,u) (mib1,p1))
