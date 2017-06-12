@@ -1050,7 +1050,6 @@ sig
         const_body : constant_def;
         const_type : constant_type;
         const_body_code : Cemitcodes.to_patch_substituted option;
-        const_polymorphic : bool;
         const_universes : constant_universes;
         const_proj : projection_body option;
         const_inline_code : bool;
@@ -1092,8 +1091,7 @@ sig
         mind_nparams : int;
         mind_nparams_rec : int;
         mind_params_ctxt : Context.Rel.t;
-        mind_polymorphic : bool;
-        mind_universes : Univ.UContext.t;
+        mind_universes : Declarations.abstrac_inductive_universes;
         mind_private : bool option;
         mind_typing_flags : Declarations.typing_flags;
       }
@@ -1945,6 +1943,7 @@ sig
     | Explicit
     | Implicit
   type private_flag = bool
+  type cumulative_inductive_flag = bool
   type definition_kind = locality * polymorphic * definition_object_kind
 end
 
@@ -2379,7 +2378,7 @@ sig
   | VernacExactProof of Constrexpr.constr_expr
   | VernacAssumption of (Decl_kinds.locality option * Decl_kinds.assumption_object_kind) *
       inline * (plident list * Constrexpr.constr_expr) with_coercion list
-  | VernacInductive of Decl_kinds.private_flag * inductive_flag * (inductive_expr * decl_notation list) list
+  | VernacInductive of Decl_kinds.cumulative_inductive_flag * Decl_kinds.private_flag * inductive_flag * (inductive_expr * decl_notation list) list
   | VernacFixpoint of
       Decl_kinds.locality option * (fixpoint_expr * decl_notation list) list
   | VernacCoFixpoint of
@@ -2625,6 +2624,12 @@ sig
   val object_tag : obj -> string
 end
 
+module Univops :
+sig
+  val universes_of_constr : Term.constr -> Univ.LSet.t
+  val restrict_universe_context : Univ.ContextSet.t -> Univ.LSet.t -> Univ.ContextSet.t
+end
+
 module Universes :
 sig
   type universe_binders = Universes.universe_binders
@@ -2633,8 +2638,7 @@ sig
   val new_Type : Names.DirPath.t -> Term.types
   val unsafe_type_of_global : Globnames.global_reference -> Term.types
   val constr_of_global : Prelude.global_reference -> Term.constr
-  val universes_of_constr : Term.constr -> Univ.LSet.t
-  val restrict_universe_context : Univ.ContextSet.t -> Univ.LSet.t -> Univ.ContextSet.t
+  
   val new_univ_level : Names.DirPath.t -> Univ.Level.t
   val unsafe_constr_of_global : Globnames.global_reference -> Term.constr Univ.in_universe_context
   val new_sort_in_family : Sorts.family -> Sorts.t
@@ -4727,8 +4731,8 @@ sig
   type one_inductive_impls = Command.one_inductive_impls
 
   val do_mutual_inductive :
-    (Vernacexpr.one_inductive_expr * Vernacexpr.decl_notation list) list -> Decl_kinds.polymorphic -> 
-    Decl_kinds.private_flag -> Decl_kinds.recursivity_kind -> unit
+    (Vernacexpr.one_inductive_expr * Vernacexpr.decl_notation list) list -> Decl_kinds.cumulative_inductive_flag ->
+    Decl_kinds.polymorphic -> Decl_kinds.private_flag -> Decl_kinds.recursivity_kind -> unit
 
   val do_definition : Names.Id.t -> Decl_kinds.definition_kind -> Vernacexpr.lident list option ->
     Constrexpr.local_binder_expr list -> Redexpr.red_expr option -> Constrexpr.constr_expr ->
@@ -4751,8 +4755,8 @@ sig
     structured_inductive_expr * Libnames.qualid list * Vernacexpr.decl_notation list
 
   val interp_mutual_inductive :
-    structured_inductive_expr -> Vernacexpr.decl_notation list -> Decl_kinds.polymorphic ->
-    Decl_kinds.private_flag -> Decl_kinds.recursivity_kind ->
+    structured_inductive_expr -> Vernacexpr.decl_notation list -> Decl_kinds.cumulative_inductive_flag ->
+    Decl_kinds.polymorphic -> Decl_kinds.private_flag -> Decl_kinds.recursivity_kind ->
     Entries.mutual_inductive_entry * Universes.universe_binders * one_inductive_impls list
 
   val declare_mutual_inductive_with_eliminations :

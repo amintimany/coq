@@ -114,6 +114,7 @@ module Lib = Lib
 module Library = Library
 module Summary = Summary
 module Universes = Universes
+module Univops = Univops
 module Declare = Declare
 module Refine = Refine
 module Find_subterm = Find_subterm
