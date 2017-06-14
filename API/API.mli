@@ -1091,7 +1091,7 @@ sig
         mind_nparams : int;
         mind_nparams_rec : int;
         mind_params_ctxt : Context.Rel.t;
-        mind_universes : Declarations.abstrac_inductive_universes;
+        mind_universes : Declarations.abstract_inductive_universes;
         mind_private : bool option;
         mind_typing_flags : Declarations.typing_flags;
       }
