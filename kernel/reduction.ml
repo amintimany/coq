@@ -676,7 +676,8 @@ let infer_check_conv_constructors
     if not (num_cnstr_args = sv1 && num_cnstr_args = sv2) then
       infer_check_convert_instances ~flex:false u1 u2 univs
     else
-      infer_check_inductive_instances CONV cumi u1 u2 univs
+      try infer_check_inductive_instances CUMUL cumi u1 u2 univs with
+        NotConvertible -> infer_check_inductive_instances CUMUL cumi u2 u1 univs
 
 let check_inductive_instances cv_pb cumi u u' univs =
   let length_ind_instance = 
